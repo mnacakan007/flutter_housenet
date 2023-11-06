@@ -56,6 +56,7 @@ class PortalMasterLayout extends StatelessWidget {
         title: ResponsiveAppBarTitle(
           onAppBarTitlePressed: () => GoRouter.of(context).go(RouteUri.home),
         ),
+        backgroundColor: Color(0xFFE4003A),
         actions: [
           _toggleThemeButton(context),
           Padding(

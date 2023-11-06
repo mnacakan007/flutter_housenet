@@ -18,6 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _dataTableHorizontalScrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
   final _clientDetails = ClientDetails();
+  bool isClientDetailsVisible = false;
 
   @override
   void dispose() {
@@ -30,6 +31,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void getClientDetails(String userName) {
     debugPrint('userName dashboard $userName');
     _clientDetails.getClientDetails(userName);
+    setState(() {
+      isClientDetailsVisible = true;
+    });
   }
 
   @override
@@ -51,97 +55,94 @@ class _DashboardScreenState extends State<DashboardScreen> {
               textInputAction: TextInputAction.search,
               decoration: const InputDecoration(
                 hintText: 'Հեռախոսահամար',
-                hintStyle: TextStyle(fontSize: 14, color: Color.fromRGBO(0,0,0,.4)),
-                prefixIcon: Icon(Icons.search),
+                hintStyle: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, .4)),
+                //  prefixIcon: Icon(Icons.search),
               ),
               onSubmitted: getClientDetails,
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // Adjust the border radius as needed
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Observer(
-                  builder: (_) => Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _clientDetails.clientDetails?.address ?? '',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            const Icon(Icons.local_phone_outlined),
-                            const SizedBox(width: 5),
-                            Text(
-                              _clientDetails.clientDetails?.phoneNumber ?? '',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Սակագին', style: TextStyle(fontSize: 16)),
-                            Text(
-                              '${_clientDetails.clientDetails?.tariff} դ' ?? '',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Առաջարկվող Գումար', style: TextStyle(fontSize: 16)),
-                            Text(
-                              '${_clientDetails.clientDetails?.recommended} դ' ?? '',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 150,
-                              height: 40,
-                              child: FormBuilderTextField(
-                                name: 'payment_amount',
-                                decoration: const InputDecoration(
-                                  hintText: 'Վճարման գումար',
-                                  hintStyle: TextStyle(fontSize: 12, color: Color.fromRGBO(0,0,0,.4)),
-                                  border: OutlineInputBorder(),
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .always,
-                                ),
-                                validator: FormBuilderValidators.required(),
-                                onSaved: (value) => {},
+          Visibility(
+            visible: isClientDetailsVisible,
+            child: SizedBox(
+              width: double.infinity,
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Adjust the border radius as needed
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Observer(
+                    builder: (_) => Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _clientDetails.clientDetails?.address ?? '',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              const Icon(Icons.local_phone_outlined),
+                              const SizedBox(width: 5),
+                              Text(
+                                _clientDetails.clientDetails?.phoneNumber ?? '',
+                                style: const TextStyle(fontSize: 16),
                               ),
-                            ),
-                            ElevatedButton(
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Սակագին', style: TextStyle(fontSize: 16)),
+                              Text('${_clientDetails.clientDetails?.tariff} դ' ?? '', style: const TextStyle(fontSize: 16),),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Առաջարկվող Գումար', style: TextStyle(fontSize: 16)),
+                              Text('${_clientDetails.clientDetails?.recommended} դ' ?? '', style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                height: 40,
+                                child: FormBuilderTextField(
+                                  name: 'payment_amount',
+                                  decoration: const InputDecoration(
+                                    hintText: 'Վճարման գումար',
+                                    hintStyle: TextStyle(fontSize: 12, color: Color.fromRGBO(0, 0, 0, .4)),
+                                    border: OutlineInputBorder(),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                  ),
+                                  validator: FormBuilderValidators.required(),
+                                  onSaved: (value) => {},
+                                ),
+                              ),
+                              ElevatedButton(
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.pink),
-                                    padding:
-                                    MaterialStateProperty.all(const EdgeInsets.fromLTRB(20, 10, 20, 10)),
-                                    textStyle: MaterialStateProperty.all(
-                                        const TextStyle(fontSize: 14, color: Colors.white))),
+                                  backgroundColor: MaterialStateProperty.all(Color(0xFFE4003A)),
+                                  padding: MaterialStateProperty.all(const EdgeInsets.fromLTRB(20, 10, 20, 10)),
+                                  textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 14, color: Colors.white)),
+                                ),
                                 onPressed: () {},
                                 child: const Text('Վճարում'),
-                            ),
-                          ],
-                        ),
-                      ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

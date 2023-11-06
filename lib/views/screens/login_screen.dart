@@ -134,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: InputDecoration(
                                 labelText: lang.username,
                                 hintText: lang.username,
+
                                 //   helperText: '* Demo username: admin',
                                 border: const OutlineInputBorder(),
                                 floatingLabelBehavior: FloatingLabelBehavior
