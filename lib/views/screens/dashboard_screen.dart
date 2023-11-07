@@ -43,10 +43,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @action
   void showError() {
-    // final goRouter = GoRouter.of(context);
-    // showFlashError(context, 'Ինչ որ բան այնպես չգնաց.');
-    // _autState.logout();
-    // goRouter.go(RouteUri.logout);
+    final goRouter = GoRouter.of(context);
+    showFlashError(context, 'Ինչ որ բան այնպես չգնաց.');
+    _autState.logout();
+    goRouter.go(RouteUri.logout);
   }
 
   @override
