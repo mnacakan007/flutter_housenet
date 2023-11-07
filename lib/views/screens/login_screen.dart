@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _formData = FormData();
   final _autState = AuthState();
-
   var _isFormLoading = false;
 
   Future<void> _doLoginAsync({

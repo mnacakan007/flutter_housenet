@@ -29,13 +29,13 @@ class PublicMasterLayout extends StatelessWidget {
               children: [
                 _toggleThemeButton(context),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: VerticalDivider(
-                    width: 1.0,
-                    thickness: 1.0,
+                    width: 1,
+                    thickness: 1,
                     color: themeData.colorScheme.onSurface.withOpacity(0.3),
-                    indent: 14.0,
-                    endIndent: 14.0,
+                    indent: 14,
+                    endIndent: 14,
                   ),
                 ),
                 _changeLanguageButton(context),
