@@ -1,8 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_elevated_button/loading_elevated_button.dart';
 import 'package:provider/provider.dart';
 import '../../app_router.dart';
 import '../../constants/dimens.dart';
@@ -10,6 +12,7 @@ import '../../generated/l10n.dart';
 import '../../http/repositories/login_repository.dart';
 import '../../providers/user_data_provider.dart';
 import '../../store/auth/auth_state.dart';
+import '../../store/login_state/login_state.dart';
 import '../../theme/theme_extensions/app_button_theme.dart';
 import '../../utils/app_focus_helper.dart';
 import '../../utils/storage_utils.dart';
@@ -26,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _formData = FormData();
   final _autState = AuthState();
+  final _loginState = LoginState();
+
   var _isFormLoading = false;
 
   Future<void> _doLoginAsync({
@@ -37,9 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (_formKey.currentState?.validate() ?? false) {
       // Validation passed.
-      _formKey.currentState!.save();
-
       setState(() => _isFormLoading = true);
+      _formKey.currentState!.save();
 
       Future.delayed(const Duration(seconds: 1), () async {
         await userDataProvider.setUserDataAsync(
@@ -48,10 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         try {
+          _loginState.startLoading();
+
           final res = await LoginRepository.login(_formData.username, _formData.password);
 
           if (res.accessToken?.isNotEmpty ?? false) {
             final token = '${res.accessToken}';
+
             _autState.accessToken = token;
             await StorageUtils.setAccessToken(token);
             onSuccess.call();
@@ -61,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         setState(() => _isFormLoading = false);
+        _loginState.stopLoading();
       });
     }
   }
@@ -167,20 +175,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: SizedBox(
                               height: 40,
                               width: double.infinity,
-                              child: ElevatedButton(
-                                style: themeData.extension<AppButtonTheme>()!
-                                    .primaryElevated,
-                                onPressed: (_isFormLoading
-                                    ? null
-                                    : () =>
-                                    _doLoginAsync(
-                                      userDataProvider: context.read<
-                                          UserDataProvider>(),
-                                      onSuccess: () => _onLoginSuccess(context),
-                                      onError: (message) =>
-                                          _onLoginError(context, message),
+                              child: Observer(
+                                builder: (_) =>
+                                  LoadingElevatedButton(
+                                    isLoading: _loginState.isLoading || _isFormLoading,
+                                    style: themeData.extension<AppButtonTheme>()!.primaryElevated,
+                                    onPressed: (_isFormLoading
+                                        ? null
+                                        : () =>
+                                      _doLoginAsync(
+                                        userDataProvider: context.read<UserDataProvider>(),
+                                        onSuccess: () => _onLoginSuccess(context),
+                                        onError: (message) => _onLoginError(context, message),
                                     )),
-                                child: Text(lang.login),
+                                    child: Text(lang.login),
+                                    ),
                               ),
                             ),
                           ),

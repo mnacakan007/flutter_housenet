@@ -42,6 +42,7 @@ dependencies:
   form_builder_validators: ^9.0.0
   form_builder_asset_picker: ^1.1.1
   awesome_dialog: ^3.0.2
+  loading_elevated_button: ^1.0.0+2
 
   # A powerful Http client for Dart, which supports Interceptors,
   # Global configuration, FormData, Request Cancellation, File downloading, Timeout etc.

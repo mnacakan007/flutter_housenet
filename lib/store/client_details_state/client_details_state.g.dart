@@ -16,6 +16,20 @@ mixin _$ClientDetails on _ClientDetails, Store {
           Computed<ClientDetailsModel?>(() => super.clientDetails,
               name: '_ClientDetails.clientDetails'))
       .value;
+  Computed<bool>? _$phoneNumberNotFoundComputed;
+
+  @override
+  bool get phoneNumberNotFound => (_$phoneNumberNotFoundComputed ??=
+          Computed<bool>(() => super.phoneNumberNotFound,
+              name: '_ClientDetails.phoneNumberNotFound'))
+      .value;
+  Computed<bool>? _$thereIsClientDataComputed;
+
+  @override
+  bool get thereIsClientData => (_$thereIsClientDataComputed ??= Computed<bool>(
+          () => super.thereIsClientData,
+          name: '_ClientDetails.thereIsClientData'))
+      .value;
 
   late final _$_clientDetailsAtom =
       Atom(name: '_ClientDetails._clientDetails', context: context);
@@ -115,12 +129,36 @@ mixin _$ClientDetails on _ClientDetails, Store {
   }
 
   @override
+  void setErrorsValue(Exception exception) {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.setErrorsValue');
+    try {
+      return super.setErrorsValue(exception);
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setClientDetailsValue(ClientDetailsModel clientDetails) {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.setClientDetailsValue');
+    try {
+      return super.setClientDetailsValue(clientDetails);
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 error: ${error},
 notFoundError: ${notFoundError},
-clientDetails: ${clientDetails}
+clientDetails: ${clientDetails},
+phoneNumberNotFound: ${phoneNumberNotFound},
+thereIsClientData: ${thereIsClientData}
     ''';
   }
 }

@@ -82,5 +82,12 @@
   "urlErrorText": "This field requires a valid URL address.",
   "username": "Username",
   "yes": "Yes",
-  "sakagin": "sakagin"
+  "somethingWentWrong": "Something went wrong",
+  "phoneNumber": "Phone number",
+  "searchService": "Search service",
+  "phoneNumberNotFound": "Phone number not found",
+  "paymentAmount": "Payment amount",
+  "payment": "Payment",
+  "tariff": "Tariff",
+  "suggestedAmount": "Suggested amount"
 }

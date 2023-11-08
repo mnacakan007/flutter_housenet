@@ -32,9 +32,9 @@ class _CrudDetailScreenState extends State<CrudDetailScreen> {
   Future<bool> _getDataAsync() async {
     if (widget.id.isNotEmpty) {
       await Future.delayed(const Duration(seconds: 1), () {
-        _formData.id = widget.id;
-        _formData.item = 'Item name';
-        _formData.price = '1234.99';
+        _formData..id = widget.id
+        ..item = 'Item name'
+        ..price = '1234.99';
       });
     }
 

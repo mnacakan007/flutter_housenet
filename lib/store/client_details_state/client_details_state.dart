@@ -16,6 +16,12 @@ abstract class _ClientDetails with Store {
   @computed
   ClientDetailsModel? get clientDetails => _clientDetails;
 
+  @computed
+  bool get phoneNumberNotFound => !isLoading && notFoundError.isNotEmpty;
+
+  @computed
+  bool get thereIsClientData => clientDetails?.clientId.toString().isNotEmpty == true;
+
   @observable
   bool isLoading = false;
 

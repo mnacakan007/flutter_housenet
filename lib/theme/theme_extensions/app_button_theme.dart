@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitledd/theme/theme_extensions/app_color_scheme.dart';
+import 'app_color_scheme.dart';
 
 class AppButtonTheme extends ThemeExtension<AppButtonTheme> {
   final ButtonStyle primaryElevated;
