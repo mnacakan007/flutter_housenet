@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+
 import '../../../app_router.dart';
 import '../../../constants/dimens.dart';
 import '../../../generated/l10n.dart';
 import '../../../master_layout_config.dart';
 import '../../../providers/app_preferences_provider.dart';
+import '../../../store/navigate_state/navigate_state.dart';
 import '../../../theme/theme_extensions/app_color_scheme.dart';
 import '../../../theme/theme_extensions/app_sidebar_theme.dart';
-import 'sidebar.dart';
+import '../../screens/dashboard_screen.dart';
+import '../../screens/my_profile_screen.dart';
+import '../bottom-nav-bar.dart';
 
 class LocaleMenuConfig {
   final String languageCode;
@@ -22,7 +28,7 @@ class LocaleMenuConfig {
   });
 }
 
-class PortalMasterLayout extends StatelessWidget {
+class PortalMasterLayout extends StatefulWidget {
   final Widget body;
   final bool autoSelectMenu;
   final String? selectedMenuUri;
@@ -45,73 +51,86 @@ class PortalMasterLayout extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PortalMasterLayout> createState() => _PortalMasterLayoutState();
+}
+
+class _PortalMasterLayoutState extends State<PortalMasterLayout> {
+  final _navigateState = NavigateState();
+  int index = 0;
+  late ReactionDisposer disposer;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => _navigateState.page, (pade) {
+      setState(() {
+        index = pade;
+      });
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
+    // final mediaQueryData = MediaQuery.of(context);
     final themeData = Theme.of(context);
-    final drawer = (mediaQueryData.size.width <= kScreenWidthLg ? _sidebar(context) : null);
+    // final drawer = (mediaQueryData.size.width <= kScreenWidthLg ? _sidebar(context) : null);
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: (drawer != null),
+        // automaticallyImplyLeading: (drawer != null),
         title: ResponsiveAppBarTitle(
           onAppBarTitlePressed: () => GoRouter.of(context).go(RouteUri.home),
         ),
-        backgroundColor: Color(0xFFE4003A),
+        backgroundColor: const Color(0xFFE4003A),
         actions: [
           _toggleThemeButton(context),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: VerticalDivider(
-              width: 1.0,
-              thickness: 1.0,
+              width: 1,
+              thickness: 1,
               color: themeData.appBarTheme.foregroundColor!.withOpacity(0.5),
-              indent: 14.0,
-              endIndent: 14.0,
+              indent: 14,
+              endIndent: 14,
             ),
           ),
           _changeLanguageButton(context),
           const SizedBox(width: kDefaultPadding * 0.5),
         ],
       ),
-      drawer: drawer,
-      drawerEnableOpenDragGesture: false,
-      onDrawerChanged: onDrawerChanged,
-      body: _responsiveBody(context),
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
-      floatingActionButtonAnimator: floatingActionButtonAnimator,
-      persistentFooterButtons: persistentFooterButtons,
+      bottomNavigationBar: const BottomNavBar(),
+      // drawer: drawer,
+      // drawerEnableOpenDragGesture: false,
+      // onDrawerChanged: onDrawerChanged,
+      body: getSelectedWidget(index: index),
+      floatingActionButton: widget.floatingActionButton,
+      floatingActionButtonLocation: widget.floatingActionButtonLocation,
+      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+      persistentFooterButtons: widget.persistentFooterButtons,
     );
   }
 
-  Widget _responsiveBody(BuildContext context) {
-    if (MediaQuery.of(context).size.width <= kScreenWidthLg) {
-      return body;
-    } else {
-      return Row(
-        children: [
-          SizedBox(
-            width: Theme.of(context).extension<AppSidebarTheme>()!.sidebarWidth,
-            child: _sidebar(context),
-          ),
-          Expanded(child: body),
-        ],
-      );
+  // Widget _responsiveBody(BuildContext context) {
+  Widget getSelectedWidget({required int index}){
+    Widget widget;
+    switch(index){
+      case 0:
+        widget = const DashboardScreen();
+        break;
+      case 1:
+        widget = const MyProfileScreen();
+        break;
+      default:
+        widget = const DashboardScreen();
+        break;
     }
+    return widget;
   }
 
-  Widget _sidebar(BuildContext context) {
-    final goRouter = GoRouter.of(context);
-
-    return Sidebar(
-      autoSelectMenu: autoSelectMenu,
-      selectedMenuUri: selectedMenuUri,
-      onAccountButtonPressed: () => goRouter.go(RouteUri.myProfile),
-      onLogoutButtonPressed: () => goRouter.go(RouteUri.logout),
-      sidebarConfigs: sidebarMenuConfigs,
-    );
-  }
-
+  //
   Widget _toggleThemeButton(BuildContext context) {
     final lang = Lang.of(context);
     final themeData = Theme.of(context);
@@ -207,7 +226,6 @@ class PortalMasterLayout extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class ResponsiveAppBarTitle extends StatelessWidget {
