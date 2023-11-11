@@ -90,7 +90,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       hintText: lang.phoneNumber,
                       hintStyle: const TextStyle(
                         fontSize: 14,
-                        color: Color.fromRGBO(0, 0, 0, .4),
                       ),
                     ),
                     onSubmitted: getClientDetails,

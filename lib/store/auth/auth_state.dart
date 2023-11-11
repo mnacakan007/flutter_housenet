@@ -3,7 +3,6 @@ import 'package:mobx/mobx.dart';
 import '../../http/repositories/auth_repository.dart';
 import '../../models/user_model/user_model.dart';
 import '../../utils/storage_utils.dart';
-import '../store.dart';
 
 part 'auth_state.g.dart';
 
@@ -35,7 +34,7 @@ abstract class _AuthState with Store {
   Future<void> _cleanUserData() async {
     await Future.wait([StorageUtils.removeAccessToken()]);
 
-    reRegisterStoreGetIt();
+    // reRegisterStoreGetIt();
   }
 
   @action

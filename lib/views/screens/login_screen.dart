@@ -147,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 floatingLabelBehavior: FloatingLabelBehavior
                                     .always,
                               ),
-                              enableSuggestions: false,
                               validator: FormBuilderValidators.required(),
                               onSaved: (value) => _formData.username = value ?? '',
                             ),
@@ -164,7 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 floatingLabelBehavior: FloatingLabelBehavior
                                     .always,
                               ),
-                              enableSuggestions: false,
                               obscureText: true,
                               validator: FormBuilderValidators.required(),
                               onSaved: (value) => _formData.password = value ?? '',

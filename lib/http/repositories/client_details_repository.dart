@@ -11,7 +11,7 @@ class ClientDetailsRepository {
       final res = await dio.post(
         '/getClientDetails?api_token=${ApiKey.apiToken}',
         data: {
-          'user_name': '093618102',
+          'user_name': userName,
         },
       );
 

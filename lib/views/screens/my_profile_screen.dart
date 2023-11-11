@@ -2,9 +2,12 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:provider/provider.dart';
 import '../../constants/dimens.dart';
 import '../../generated/l10n.dart';
+import '../../providers/app_preferences_provider.dart';
 import '../../theme/theme_extensions/app_button_theme.dart';
+import '../../theme/theme_extensions/app_color_scheme.dart';
 import '../../utils/app_focus_helper.dart';
 import '../widgets/card_elements.dart';
 import '../widgets/portal_master_layout/portal_master_layout.dart';
@@ -24,9 +27,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   Future<bool> _getDataAsync() async {
     await Future.delayed(const Duration(seconds: 1), () {
-      _formData.userProfileImageUrl = 'https://picsum.photos/id/1005/300/300';
-      _formData.username = 'Admin ABC';
-      _formData.email = 'adminabc@email.com';
+      _formData..userProfileImageUrl = 'https://picsum.photos/id/1005/300/300'
+      ..username = 'Admin ABC'
+      ..email = 'adminabc@email.com';
     });
 
     return true;
@@ -59,12 +62,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     final themeData = Theme.of(context);
 
     return PortalMasterLayout(
+      selectedPageIndex: 1,
       body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding),
         children: [
-          Text(
-            lang.myProfile,
-            style: themeData.textTheme.headlineMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                lang.myProfile,
+                style: themeData.textTheme.headlineMedium,
+              ),
+              _toggleThemeButton(context),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
@@ -78,8 +88,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   ),
                   CardBody(
                     child: FutureBuilder<bool>(
-                      initialData: null,
-                      future: (_future ??= _getDataAsync()),
+                      future: _future ??= _getDataAsync(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           if (snapshot.hasData && snapshot.data!) {
@@ -93,8 +102,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
                           child: SizedBox(
-                            height: 40.0,
-                            width: 40.0,
+                            height: 40,
+                            width: 40,
                             child: CircularProgressIndicator(
                               backgroundColor: themeData.scaffoldBackgroundColor,
                             ),
@@ -130,14 +139,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 CircleAvatar(
                   backgroundColor: Colors.white,
                   backgroundImage: NetworkImage(_formData.userProfileImageUrl),
-                  radius: 60.0,
+                  radius: 60,
                 ),
                 Positioned(
-                  top: 0.0,
-                  right: 0.0,
+                  top: 0,
+                  right: 0,
                   child: SizedBox(
-                    height: 40.0,
-                    width: 40.0,
+                    height: 40,
+                    width: 40,
                     child: ElevatedButton(
                       onPressed: () {},
                       style: themeData.extension<AppButtonTheme>()!.secondaryElevated.copyWith(
@@ -146,7 +155,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           ),
                       child: const Icon(
                         Icons.edit_rounded,
-                        size: 20.0,
+                        size: 20,
                       ),
                     ),
                   ),
@@ -166,7 +175,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
               initialValue: _formData.username,
               validator: FormBuilderValidators.required(),
-              onSaved: (value) => (_formData.username = value ?? ''),
+              onSaved: (value) => _formData.username = value ?? '',
             ),
           ),
           Padding(
@@ -182,25 +191,24 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               initialValue: _formData.email,
               keyboardType: TextInputType.emailAddress,
               validator: FormBuilderValidators.required(),
-              onSaved: (value) => (_formData.email = value ?? ''),
+              onSaved: (value) => _formData.email = value ?? '',
             ),
           ),
           Align(
             alignment: Alignment.centerRight,
             child: SizedBox(
-              height: 40.0,
+              height: 40,
               child: ElevatedButton(
                 style: themeData.extension<AppButtonTheme>()!.successElevated,
                 onPressed: () => _doSave(context),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: kDefaultPadding * 0.5),
                       child: Icon(
                         Icons.save_rounded,
-                        size: (themeData.textTheme.labelLarge!.fontSize! + 4.0),
+                        size: themeData.textTheme.labelLarge!.fontSize! + 4.0,
                       ),
                     ),
                     Text(lang.save),
@@ -210,6 +218,62 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _toggleThemeButton(BuildContext context) {
+    final lang = Lang.of(context);
+    final themeData = Theme.of(context);
+    final isFullWidthButton = MediaQuery.of(context).size.width > kScreenWidthMd;
+
+    return SizedBox(
+      width: 48,
+      child: TextButton(
+        onPressed: () async {
+          final provider = context.read<AppPreferencesProvider>();
+          final currentThemeMode = provider.themeMode;
+          final themeMode = (currentThemeMode != ThemeMode.dark ? ThemeMode.dark : ThemeMode.light);
+
+          await provider.setThemeModeAsync(themeMode: themeMode);
+        },
+        style: TextButton.styleFrom(
+          foregroundColor: themeData.colorScheme.onPrimary,
+          disabledForegroundColor: themeData.extension<AppColorScheme>()!.primary.withOpacity(0.38),
+          shape: const RoundedRectangleBorder(),
+        ),
+        child: Selector<AppPreferencesProvider, ThemeMode>(
+          selector: (context, provider) => provider.themeMode,
+          builder: (context, value, child) {
+            var icon = Icons.dark_mode_rounded;
+            var text = lang.darkTheme;
+            var color = Colors.black;
+
+            if (value == ThemeMode.dark) {
+              icon = Icons.light_mode_rounded;
+              text = lang.lightTheme;
+              color = Colors.white;
+            }
+
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  color: color,
+                  size: themeData.textTheme.labelLarge!.fontSize! + 4.0,
+                ),
+                Visibility(
+                  visible: isFullWidthButton,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: kDefaultPadding * 0.5),
+                    child: Text(text),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_router.dart';
@@ -9,11 +7,7 @@ import '../../../constants/dimens.dart';
 import '../../../generated/l10n.dart';
 import '../../../master_layout_config.dart';
 import '../../../providers/app_preferences_provider.dart';
-import '../../../store/navigate_state/navigate_state.dart';
-import '../../../theme/theme_extensions/app_color_scheme.dart';
-import '../../../theme/theme_extensions/app_sidebar_theme.dart';
-import '../../screens/dashboard_screen.dart';
-import '../../screens/my_profile_screen.dart';
+import '../../../store/auth/auth_state.dart';
 import '../bottom-nav-bar.dart';
 
 class LocaleMenuConfig {
@@ -32,6 +26,7 @@ class PortalMasterLayout extends StatefulWidget {
   final Widget body;
   final bool autoSelectMenu;
   final String? selectedMenuUri;
+  final int selectedPageIndex;
   final void Function(bool isOpened)? onDrawerChanged;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -43,6 +38,7 @@ class PortalMasterLayout extends StatefulWidget {
     required this.body,
     this.autoSelectMenu = true,
     this.selectedMenuUri,
+    this.selectedPageIndex = 0,
     this.onDrawerChanged,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -55,28 +51,13 @@ class PortalMasterLayout extends StatefulWidget {
 }
 
 class _PortalMasterLayoutState extends State<PortalMasterLayout> {
-  final _navigateState = NavigateState();
-  int index = 0;
-  late ReactionDisposer disposer;
-
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    disposer = reaction((_) => _navigateState.page, (pade) {
-      setState(() {
-        index = pade;
-      });
-    });
-  }
-
+  final _autState = AuthState();
 
   @override
   Widget build(BuildContext context) {
     // final mediaQueryData = MediaQuery.of(context);
-    final themeData = Theme.of(context);
     // final drawer = (mediaQueryData.size.width <= kScreenWidthLg ? _sidebar(context) : null);
+    final themeData = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,7 +67,7 @@ class _PortalMasterLayoutState extends State<PortalMasterLayout> {
         ),
         backgroundColor: const Color(0xFFE4003A),
         actions: [
-          _toggleThemeButton(context),
+          _changeLanguageButton(context),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: VerticalDivider(
@@ -97,15 +78,26 @@ class _PortalMasterLayoutState extends State<PortalMasterLayout> {
               endIndent: 14,
             ),
           ),
-          _changeLanguageButton(context),
+          IconButton(
+              icon: const Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ),
+              tooltip: 'Logout/ExitToApp',
+              onPressed: () {
+                _autState.logout();
+                GoRouter.of(context).go(RouteUri.logout);
+              },
+          ),
           const SizedBox(width: kDefaultPadding * 0.5),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(selectedPageIndex: widget.selectedPageIndex),
       // drawer: drawer,
       // drawerEnableOpenDragGesture: false,
       // onDrawerChanged: onDrawerChanged,
-      body: getSelectedWidget(index: index),
+      // body: _responsiveBody(context),
+      body: widget.body,
       floatingActionButton: widget.floatingActionButton,
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
@@ -114,79 +106,26 @@ class _PortalMasterLayoutState extends State<PortalMasterLayout> {
   }
 
   // Widget _responsiveBody(BuildContext context) {
-  Widget getSelectedWidget({required int index}){
-    Widget widget;
-    switch(index){
-      case 0:
-        widget = const DashboardScreen();
-        break;
-      case 1:
-        widget = const MyProfileScreen();
-        break;
-      default:
-        widget = const DashboardScreen();
-        break;
-    }
-    return widget;
-  }
-
-  //
-  Widget _toggleThemeButton(BuildContext context) {
-    final lang = Lang.of(context);
-    final themeData = Theme.of(context);
-    final isFullWidthButton = (MediaQuery.of(context).size.width > kScreenWidthMd);
-
-    return SizedBox(
-      width: (isFullWidthButton ? null : 48.0),
-      child: TextButton(
-        onPressed: () async {
-          final provider = context.read<AppPreferencesProvider>();
-          final currentThemeMode = provider.themeMode;
-          final themeMode = (currentThemeMode != ThemeMode.dark ? ThemeMode.dark : ThemeMode.light);
-
-          provider.setThemeModeAsync(themeMode: themeMode);
-        },
-        style: TextButton.styleFrom(
-          foregroundColor: themeData.colorScheme.onPrimary,
-          disabledForegroundColor: themeData.extension<AppColorScheme>()!.primary.withOpacity(0.38),
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        ),
-        child: Selector<AppPreferencesProvider, ThemeMode>(
-          selector: (context, provider) => provider.themeMode,
-          builder: (context, value, child) {
-            var icon = Icons.dark_mode_rounded;
-            var text = lang.darkTheme;
-
-            if (value == ThemeMode.dark) {
-              icon = Icons.light_mode_rounded;
-              text = lang.lightTheme;
-            }
-
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  size: (themeData.textTheme.labelLarge!.fontSize! + 4.0),
-                ),
-                Visibility(
-                  visible: isFullWidthButton,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: kDefaultPadding * 0.5),
-                    child: Text(text),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
+  //   if (MediaQuery.of(context).size.width <= kScreenWidthLg) {
+  //     return body;
+  //   } else {
+  //     return Row(
+  //       children: [
+  //         SizedBox(
+  //           width: Theme.of(context).extension<AppSidebarTheme>()!.sidebarWidth,
+  //           child: _sidebar(context),
+  //         ),
+  //         Expanded(child: body),
+  //       ],
+  //     );
+  //   }
+  // }
 
   Widget _changeLanguageButton(BuildContext context) {
+    final themeData = Theme.of(context);
+
     return PopupMenuButton(
-      splashRadius: 0.0,
+      splashRadius: 0,
       tooltip: '',
       position: PopupMenuPosition.under,
       itemBuilder: (context) {
@@ -204,18 +143,15 @@ class _PortalMasterLayoutState extends State<PortalMasterLayout> {
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding * 0.5),
-        constraints: const BoxConstraints(minWidth: 48.0),
+        constraints: const BoxConstraints(minWidth: 48),
         child: Row(
           children: [
-            Text(
-              'lng',
-              style: TextStyle(
-                fontSize: (Theme.of(context).textTheme.labelLarge!.fontSize! + 4.0),
-                fontWeight: FontWeight.bold,
-              ),
+            Icon(
+              Icons.language,
+              size: themeData.textTheme.labelLarge!.fontSize! + 4.0,
             ),
             Visibility(
-              visible: (MediaQuery.of(context).size.width > kScreenWidthMd),
+              visible: MediaQuery.of(context).size.width > kScreenWidthMd,
               child: Padding(
                 padding: const EdgeInsets.only(left: kDefaultPadding * 0.5),
                 child: Text(Lang.of(context).language),
@@ -249,10 +185,10 @@ class ResponsiveAppBarTitle extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
-              visible: (mediaQueryData.size.width > kScreenWidthSm),
+              visible: mediaQueryData.size.width > kScreenWidthSm,
               child: Container(
                 padding: const EdgeInsets.only(right: kDefaultPadding * 0.7),
-                height: 40.0,
+                height: 40,
                 child: Image.asset(
                   'assets/images/app_logo.png',
                   fit: BoxFit.contain,
