@@ -88,26 +88,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmSubmitRecord":
     MessageLookupByLibrary.simpleMessage("Հաստատե՞լ այս գրառումը ներկայացնելը:"),
     "copy": MessageLookupByLibrary.simpleMessage("Պատճենել"),
-    "creditCardErrorText": MessageLookupByLibrary.simpleMessage(
-        "Այս դաշտը պահանջում է վավեր վարկային քարտի համար:"),
+    "creditCardErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր վարկային քարտի համար:"),
     "crudBack": MessageLookupByLibrary.simpleMessage("Հետ"),
     "crudDelete": MessageLookupByLibrary.simpleMessage("Ջնջել"),
     "crudDetail": MessageLookupByLibrary.simpleMessage("Մանրամասն"),
     "crudNew": MessageLookupByLibrary.simpleMessage("Նոր"),
     "darkTheme": MessageLookupByLibrary.simpleMessage("Մութ ռեժիմ"),
     "dashboard": MessageLookupByLibrary.simpleMessage("Որոնել ծառայությունը"),
-    "dateStringErrorText": MessageLookupByLibrary.simpleMessage(
-        "Այս դաշտը պահանջում է վավեր ամսաթվի տող:"),
+    "dateStringErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր ամսաթվի տող:"),
     "dialogs": m2,
     "dontHaveAnAccount":
     MessageLookupByLibrary.simpleMessage("Չունե՞ք հաշիվ:"),
     "email": MessageLookupByLibrary.simpleMessage("էլ.փոստ"),
-    "emailErrorText": MessageLookupByLibrary.simpleMessage(
-        "Այս դաշտը պահանջում է վավեր էլփոստի հասցե:"),
+    "emailErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր էլփոստի հասցե:"),
     "equalErrorText": m3,
     "error404": MessageLookupByLibrary.simpleMessage("Error 404"),
-    "error404Message": MessageLookupByLibrary.simpleMessage(
-        "Ներեցեք, ձեր որոնած էջը հեռացվել է կամ գոյություն չունի:"),
+    "error404Message": MessageLookupByLibrary.simpleMessage("Ներեցեք, ձեր որոնած էջը հեռացվել է կամ գոյություն չունի:"),
     "error404Title": MessageLookupByLibrary.simpleMessage("Էջը չի գտնվել"),
     "example": MessageLookupByLibrary.simpleMessage("Օրինակ"),
     "extensions": m4,
@@ -116,19 +112,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "hi": MessageLookupByLibrary.simpleMessage("Ողջու՜յն"),
     "homePage": MessageLookupByLibrary.simpleMessage("Գլխաոր"),
     "iframeDemo": MessageLookupByLibrary.simpleMessage("IFrame Demo"),
-    "integerErrorText": MessageLookupByLibrary.simpleMessage(
-        "Այս դաշտը պահանջում է վավեր ամբողջ թիվ:"),
-    "ipErrorText": MessageLookupByLibrary.simpleMessage(
-        "Այս դաշտը պահանջում է վավեր IP:"),
+    "integerErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր ամբողջ թիվ:"),
+    "ipErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր IP:"),
     "language": MessageLookupByLibrary.simpleMessage("Լեզու"),
     "lightTheme": MessageLookupByLibrary.simpleMessage("Լույսի ռեժիմ"),
     "login": MessageLookupByLibrary.simpleMessage("Մուտք գործել"),
     "loginNow": MessageLookupByLibrary.simpleMessage("Մուտք գործեք հիմա:"),
     "logout": MessageLookupByLibrary.simpleMessage("Դուրս գալ"),
-    "loremIpsum": MessageLookupByLibrary.simpleMessage(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-    "matchErrorText": MessageLookupByLibrary.simpleMessage(
-        "Արժեքը չի համապատասխանում օրինաչափությանը:"),
+    "loremIpsum": MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+    "matchErrorText": MessageLookupByLibrary.simpleMessage("Արժեքը չի համապատասխանում օրինաչափությանը:"),
     "maxErrorText": m6,
     "maxLengthErrorText": m7,
     "minErrorText": m8,
@@ -148,12 +140,10 @@ class MessageLookup extends MessageLookupByLibrary {
     MessageLookupByLibrary.simpleMessage("Գաղտնաբառը չի համընկնում:"),
     "pendingIssues": m14,
     "recentOrders": m15,
-    "recordDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
-        "Ձայնագրությունը հաջողությամբ ջնջվեց:"),
+    "recordDeletedSuccessfully": MessageLookupByLibrary.simpleMessage("Ձայնագրությունը հաջողությամբ ջնջվեց:"),
     "recordSavedSuccessfully":
     MessageLookupByLibrary.simpleMessage("Ձայնագրությունը հաջողությամբ պահպանվեց:"),
-    "recordSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
-        "Record submitted successfully."),
+    "recordSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage("Record submitted successfully."),
     "register": MessageLookupByLibrary.simpleMessage("Գրանցվել"),
     "registerANewAccount":
     MessageLookupByLibrary.simpleMessage("Գրանցեք նոր հաշիվ"),
@@ -174,6 +164,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "urlErrorText": MessageLookupByLibrary.simpleMessage("Այս դաշտը պահանջում է վավեր URL հասցե:"),
     "username": MessageLookupByLibrary.simpleMessage("Օգտագործողի անունը"),
     "yes": MessageLookupByLibrary.simpleMessage("Այո՛"),
-    "sakagin": MessageLookupByLibrary.simpleMessage("Սակագին՛"),
+    "somethingWentWrong": MessageLookupByLibrary.simpleMessage("Ինչ որ բան այնպես չգնաց."),
+    "phoneNumber": MessageLookupByLibrary.simpleMessage("Հեռախոսահամար"),
+    "searchService": MessageLookupByLibrary.simpleMessage("Որոնել ծառայությունը"),
+    "phoneNumberNotFound": MessageLookupByLibrary.simpleMessage("Հեռախոսահամարը չի գտնվել"),
+    "paymentAmount": MessageLookupByLibrary.simpleMessage("Վճարման գումար"),
+    "payment": MessageLookupByLibrary.simpleMessage("Վճարում"),
+    "tariff": MessageLookupByLibrary.simpleMessage("Սակագին"),
+    "suggestedAmount": MessageLookupByLibrary.simpleMessage("Առաջարկվող գումար"),
   };
 }

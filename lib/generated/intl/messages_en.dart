@@ -88,26 +88,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmSubmitRecord":
             MessageLookupByLibrary.simpleMessage("Confirm submit this record?"),
         "copy": MessageLookupByLibrary.simpleMessage("Copy"),
-        "creditCardErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid credit card number."),
+        "creditCardErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid credit card number."),
         "crudBack": MessageLookupByLibrary.simpleMessage("Back"),
         "crudDelete": MessageLookupByLibrary.simpleMessage("Delete"),
         "crudDetail": MessageLookupByLibrary.simpleMessage("Detail"),
         "crudNew": MessageLookupByLibrary.simpleMessage("New"),
         "darkTheme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
-        "dateStringErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid date string."),
+        "dateStringErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid date string."),
         "dialogs": m2,
         "dontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
-        "emailErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid email address."),
+        "emailErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid email address."),
         "equalErrorText": m3,
         "error404": MessageLookupByLibrary.simpleMessage("Error 404"),
-        "error404Message": MessageLookupByLibrary.simpleMessage(
-            "Sorry, the page you are looking for has been removed or not exists."),
+        "error404Message": MessageLookupByLibrary.simpleMessage("Sorry, the page you are looking for has been removed or not exists."),
         "error404Title": MessageLookupByLibrary.simpleMessage("Page not found"),
         "example": MessageLookupByLibrary.simpleMessage("Example"),
         "extensions": m4,
@@ -116,19 +112,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "homePage": MessageLookupByLibrary.simpleMessage("Home"),
         "iframeDemo": MessageLookupByLibrary.simpleMessage("IFrame Demo"),
-        "integerErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid integer."),
-        "ipErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid IP."),
+        "integerErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid integer."),
+        "ipErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid IP."),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lightTheme": MessageLookupByLibrary.simpleMessage("Light Theme"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginNow": MessageLookupByLibrary.simpleMessage("Login now!"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
-        "loremIpsum": MessageLookupByLibrary.simpleMessage(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        "matchErrorText": MessageLookupByLibrary.simpleMessage(
-            "Value does not match pattern."),
+        "loremIpsum": MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+        "matchErrorText": MessageLookupByLibrary.simpleMessage("Value does not match pattern."),
         "maxErrorText": m6,
         "maxLengthErrorText": m7,
         "minErrorText": m8,
@@ -148,12 +140,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Password not match."),
         "pendingIssues": m14,
         "recentOrders": m15,
-        "recordDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
-            "Record deleted successfully."),
+        "recordDeletedSuccessfully": MessageLookupByLibrary.simpleMessage("Record deleted successfully."),
         "recordSavedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Record saved successfully."),
-        "recordSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
-            "Record submitted successfully."),
+        "recordSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage("Record submitted successfully."),
         "register": MessageLookupByLibrary.simpleMessage("Register"),
         "registerANewAccount":
             MessageLookupByLibrary.simpleMessage("Register a new account"),
@@ -171,10 +161,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "todaySales": MessageLookupByLibrary.simpleMessage("Today Sales"),
         "typography": MessageLookupByLibrary.simpleMessage("Typography"),
         "uiElements": m16,
-        "urlErrorText": MessageLookupByLibrary.simpleMessage(
-            "This field requires a valid URL address."),
+        "urlErrorText": MessageLookupByLibrary.simpleMessage("This field requires a valid URL address."),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-    "sakagin": MessageLookupByLibrary.simpleMessage("sakagin՛"),
+        "somethingWentWrong": MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "searchService": MessageLookupByLibrary.simpleMessage("Search service"),
+        "phoneNumberNotFound": MessageLookupByLibrary.simpleMessage("Phone number not found"),
+        "paymentAmount": MessageLookupByLibrary.simpleMessage("Payment amount"),
+        "payment": MessageLookupByLibrary.simpleMessage("Payment"),
+        "tariff": MessageLookupByLibrary.simpleMessage("Tariff"),
+        "suggestedAmount": MessageLookupByLibrary.simpleMessage("Suggested amount"),
       };
 }

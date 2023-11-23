@@ -72,8 +72,46 @@ mixin _$LoginState on _LoginState, Store {
     });
   }
 
+  late final _$isLoadingAtom =
+      Atom(name: '_LoginState.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   late final _$_LoginStateActionController =
       ActionController(name: '_LoginState', context: context);
+
+  @override
+  void startLoading() {
+    final _$actionInfo = _$_LoginStateActionController.startAction(
+        name: '_LoginState.startLoading');
+    try {
+      return super.startLoading();
+    } finally {
+      _$_LoginStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void stopLoading() {
+    final _$actionInfo = _$_LoginStateActionController.startAction(
+        name: '_LoginState.stopLoading');
+    try {
+      return super.stopLoading();
+    } finally {
+      _$_LoginStateActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void validateEmail(dynamic _) {
@@ -103,7 +141,8 @@ mixin _$LoginState on _LoginState, Store {
 email: ${email},
 password: ${password},
 emailError: ${emailError},
-passwordError: ${passwordError}
+passwordError: ${passwordError},
+isLoading: ${isLoading}
     ''';
   }
 }

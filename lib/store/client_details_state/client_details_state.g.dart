@@ -16,6 +16,20 @@ mixin _$ClientDetails on _ClientDetails, Store {
           Computed<ClientDetailsModel?>(() => super.clientDetails,
               name: '_ClientDetails.clientDetails'))
       .value;
+  Computed<bool>? _$phoneNumberNotFoundComputed;
+
+  @override
+  bool get phoneNumberNotFound => (_$phoneNumberNotFoundComputed ??=
+          Computed<bool>(() => super.phoneNumberNotFound,
+              name: '_ClientDetails.phoneNumberNotFound'))
+      .value;
+  Computed<bool>? _$thereIsClientDataComputed;
+
+  @override
+  bool get thereIsClientData => (_$thereIsClientDataComputed ??= Computed<bool>(
+          () => super.thereIsClientData,
+          name: '_ClientDetails.thereIsClientData'))
+      .value;
 
   late final _$_clientDetailsAtom =
       Atom(name: '_ClientDetails._clientDetails', context: context);
@@ -33,6 +47,53 @@ mixin _$ClientDetails on _ClientDetails, Store {
     });
   }
 
+  late final _$isLoadingAtom =
+      Atom(name: '_ClientDetails.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
+  late final _$errorAtom = Atom(name: '_ClientDetails.error', context: context);
+
+  @override
+  String get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(String value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
+  late final _$notFoundErrorAtom =
+      Atom(name: '_ClientDetails.notFoundError', context: context);
+
+  @override
+  String get notFoundError {
+    _$notFoundErrorAtom.reportRead();
+    return super.notFoundError;
+  }
+
+  @override
+  set notFoundError(String value) {
+    _$notFoundErrorAtom.reportWrite(value, super.notFoundError, () {
+      super.notFoundError = value;
+    });
+  }
+
   late final _$getClientDetailsAsyncAction =
       AsyncAction('_ClientDetails.getClientDetails', context: context);
 
@@ -42,10 +103,62 @@ mixin _$ClientDetails on _ClientDetails, Store {
         .run(() => super.getClientDetails(userName));
   }
 
+  late final _$_ClientDetailsActionController =
+      ActionController(name: '_ClientDetails', context: context);
+
+  @override
+  void startLoading() {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.startLoading');
+    try {
+      return super.startLoading();
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void stopLoading() {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.stopLoading');
+    try {
+      return super.stopLoading();
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setErrorsValue(Exception exception) {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.setErrorsValue');
+    try {
+      return super.setErrorsValue(exception);
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setClientDetailsValue(ClientDetailsModel clientDetails) {
+    final _$actionInfo = _$_ClientDetailsActionController.startAction(
+        name: '_ClientDetails.setClientDetailsValue');
+    try {
+      return super.setClientDetailsValue(clientDetails);
+    } finally {
+      _$_ClientDetailsActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-clientDetails: ${clientDetails}
+isLoading: ${isLoading},
+error: ${error},
+notFoundError: ${notFoundError},
+clientDetails: ${clientDetails},
+phoneNumberNotFound: ${phoneNumberNotFound},
+thereIsClientData: ${thereIsClientData}
     ''';
   }
 }

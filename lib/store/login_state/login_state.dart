@@ -21,6 +21,19 @@ abstract class _LoginState with Store {
 
   List<ReactionDisposer>? _disposers;
 
+  @observable
+  bool isLoading = false;
+
+  @action
+  void startLoading() {
+    isLoading = true;
+  }
+
+  @action
+  void stopLoading() {
+    isLoading = false;
+  }
+
   void setupValidations() {
     if (_disposers != null) {
       return;

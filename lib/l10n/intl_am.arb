@@ -82,5 +82,12 @@
   "urlErrorText": "Այս դաշտը պահանջում է վավեր URL հասցե:",
   "username": "Օգտագործողի անունը",
   "yes": "Այո՛",
-  "sakagin": "Սակագին"
+  "somethingWentWrong": "Ինչ որ բան այնպես չգնաց.",
+  "phoneNumber": "Հեռախոսահամար",
+  "searchService": "Որոնել ծառայությունը",
+  "phoneNumberNotFound": "Հեռախոսահամարը չի գտնվել",
+  "paymentAmount": "Վճարման գումար",
+  "payment": "Վճարում",
+  "tariff": "Սակագին",
+  "suggestedAmount:": "Առաջարկվող գումար"
 }

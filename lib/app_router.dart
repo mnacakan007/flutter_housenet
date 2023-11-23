@@ -9,7 +9,6 @@ import 'views/screens/dialogs_screen.dart';
 import 'views/screens/error_screen.dart';
 import 'views/screens/form_screen.dart';
 import 'views/screens/general_ui_screen.dart';
-import 'views/screens/iframe_demo_screen.dart';
 import 'views/screens/login_screen.dart';
 import 'views/screens/logout_screen.dart';
 import 'views/screens/my_profile_screen.dart';

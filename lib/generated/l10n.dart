@@ -19,7 +19,7 @@ class Lang {
 
   static Lang get current {
     assert(_current != null,
-        'No instance of Lang was loaded. Try to initialize the Lang delegate before accessing Lang.current.');
+        'No instance of Lang was loaded. Try to initialize the Lang delegate before accessing Lang.current.',);
     return _current!;
   }
 
@@ -42,7 +42,7 @@ class Lang {
   static Lang of(BuildContext context) {
     final instance = Lang.maybeOf(context);
     assert(instance != null,
-        'No instance of Lang present in the widget tree. Did you add Lang.delegate in localizationsDelegates?');
+        'No instance of Lang present in the widget tree. Did you add Lang.delegate in localizationsDelegates?',);
     return instance!;
   }
 
@@ -264,11 +264,11 @@ class Lang {
     );
   }
 
-  /// `Dashboard`
-  String get dashboard {
+  /// `Search service`
+  String get searchService {
     return Intl.message(
       'Search service',
-      name: 'Search service',
+      name: 'searchService',
       desc: '',
       args: [],
     );
@@ -897,6 +897,76 @@ class Lang {
     return Intl.message(
       'Yes',
       name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number`
+  String get phoneNumber {
+    return Intl.message(
+      'Phone number',
+      name: 'phoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number not found`
+  String get phoneNumberNotFound {
+    return Intl.message(
+      'Phone number not found',
+      name: 'phoneNumberNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment amount`
+  String get paymentAmount {
+    return Intl.message(
+      'Payment amount',
+      name: 'paymentAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment`
+  String get payment {
+    return Intl.message(
+      'Payment',
+      name: 'payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tariff`
+  String get tariff {
+    return Intl.message(
+      'Tariff',
+      name: 'tariff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggested amount`
+  String get suggestedAmount {
+    return Intl.message(
+      'Suggested amount',
+      name: 'suggestedAmount',
       desc: '',
       args: [],
     );

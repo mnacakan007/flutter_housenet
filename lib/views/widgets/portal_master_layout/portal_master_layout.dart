@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 import '../../../app_router.dart';
 import '../../../constants/dimens.dart';
 import '../../../generated/l10n.dart';
 import '../../../master_layout_config.dart';
 import '../../../providers/app_preferences_provider.dart';
-import '../../../theme/theme_extensions/app_color_scheme.dart';
-import '../../../theme/theme_extensions/app_sidebar_theme.dart';
-import 'sidebar.dart';
+import '../../../store/auth/auth_state.dart';
+import '../bottom-nav-bar.dart';
 
 class LocaleMenuConfig {
   final String languageCode;
@@ -22,10 +22,11 @@ class LocaleMenuConfig {
   });
 }
 
-class PortalMasterLayout extends StatelessWidget {
+class PortalMasterLayout extends StatefulWidget {
   final Widget body;
   final bool autoSelectMenu;
   final String? selectedMenuUri;
+  final int selectedPageIndex;
   final void Function(bool isOpened)? onDrawerChanged;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -37,6 +38,7 @@ class PortalMasterLayout extends StatelessWidget {
     required this.body,
     this.autoSelectMenu = true,
     this.selectedMenuUri,
+    this.selectedPageIndex = 0,
     this.onDrawerChanged,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -45,129 +47,85 @@ class PortalMasterLayout extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PortalMasterLayout> createState() => _PortalMasterLayoutState();
+}
+
+class _PortalMasterLayoutState extends State<PortalMasterLayout> {
+  final _autState = AuthState();
+
+  @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
+    // final mediaQueryData = MediaQuery.of(context);
+    // final drawer = (mediaQueryData.size.width <= kScreenWidthLg ? _sidebar(context) : null);
     final themeData = Theme.of(context);
-    final drawer = (mediaQueryData.size.width <= kScreenWidthLg ? _sidebar(context) : null);
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: (drawer != null),
+        // automaticallyImplyLeading: (drawer != null),
         title: ResponsiveAppBarTitle(
           onAppBarTitlePressed: () => GoRouter.of(context).go(RouteUri.home),
         ),
-        backgroundColor: Color(0xFFE4003A),
+        backgroundColor: const Color(0xFFE4003A),
         actions: [
-          _toggleThemeButton(context),
+          _changeLanguageButton(context),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: VerticalDivider(
-              width: 1.0,
-              thickness: 1.0,
+              width: 1,
+              thickness: 1,
               color: themeData.appBarTheme.foregroundColor!.withOpacity(0.5),
-              indent: 14.0,
-              endIndent: 14.0,
+              indent: 14,
+              endIndent: 14,
             ),
           ),
-          _changeLanguageButton(context),
+          IconButton(
+              icon: const Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ),
+              tooltip: 'Logout/ExitToApp',
+              onPressed: () {
+                _autState.logout();
+                GoRouter.of(context).go(RouteUri.logout);
+              },
+          ),
           const SizedBox(width: kDefaultPadding * 0.5),
         ],
       ),
-      drawer: drawer,
-      drawerEnableOpenDragGesture: false,
-      onDrawerChanged: onDrawerChanged,
-      body: _responsiveBody(context),
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
-      floatingActionButtonAnimator: floatingActionButtonAnimator,
-      persistentFooterButtons: persistentFooterButtons,
+      bottomNavigationBar: BottomNavBar(selectedPageIndex: widget.selectedPageIndex),
+      // drawer: drawer,
+      // drawerEnableOpenDragGesture: false,
+      // onDrawerChanged: onDrawerChanged,
+      // body: _responsiveBody(context),
+      body: widget.body,
+      floatingActionButton: widget.floatingActionButton,
+      floatingActionButtonLocation: widget.floatingActionButtonLocation,
+      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+      persistentFooterButtons: widget.persistentFooterButtons,
     );
   }
 
-  Widget _responsiveBody(BuildContext context) {
-    if (MediaQuery.of(context).size.width <= kScreenWidthLg) {
-      return body;
-    } else {
-      return Row(
-        children: [
-          SizedBox(
-            width: Theme.of(context).extension<AppSidebarTheme>()!.sidebarWidth,
-            child: _sidebar(context),
-          ),
-          Expanded(child: body),
-        ],
-      );
-    }
-  }
-
-  Widget _sidebar(BuildContext context) {
-    final goRouter = GoRouter.of(context);
-
-    return Sidebar(
-      autoSelectMenu: autoSelectMenu,
-      selectedMenuUri: selectedMenuUri,
-      onAccountButtonPressed: () => goRouter.go(RouteUri.myProfile),
-      onLogoutButtonPressed: () => goRouter.go(RouteUri.logout),
-      sidebarConfigs: sidebarMenuConfigs,
-    );
-  }
-
-  Widget _toggleThemeButton(BuildContext context) {
-    final lang = Lang.of(context);
-    final themeData = Theme.of(context);
-    final isFullWidthButton = (MediaQuery.of(context).size.width > kScreenWidthMd);
-
-    return SizedBox(
-      width: (isFullWidthButton ? null : 48.0),
-      child: TextButton(
-        onPressed: () async {
-          final provider = context.read<AppPreferencesProvider>();
-          final currentThemeMode = provider.themeMode;
-          final themeMode = (currentThemeMode != ThemeMode.dark ? ThemeMode.dark : ThemeMode.light);
-
-          provider.setThemeModeAsync(themeMode: themeMode);
-        },
-        style: TextButton.styleFrom(
-          foregroundColor: themeData.colorScheme.onPrimary,
-          disabledForegroundColor: themeData.extension<AppColorScheme>()!.primary.withOpacity(0.38),
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        ),
-        child: Selector<AppPreferencesProvider, ThemeMode>(
-          selector: (context, provider) => provider.themeMode,
-          builder: (context, value, child) {
-            var icon = Icons.dark_mode_rounded;
-            var text = lang.darkTheme;
-
-            if (value == ThemeMode.dark) {
-              icon = Icons.light_mode_rounded;
-              text = lang.lightTheme;
-            }
-
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  size: (themeData.textTheme.labelLarge!.fontSize! + 4.0),
-                ),
-                Visibility(
-                  visible: isFullWidthButton,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: kDefaultPadding * 0.5),
-                    child: Text(text),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
+  // Widget _responsiveBody(BuildContext context) {
+  //   if (MediaQuery.of(context).size.width <= kScreenWidthLg) {
+  //     return body;
+  //   } else {
+  //     return Row(
+  //       children: [
+  //         SizedBox(
+  //           width: Theme.of(context).extension<AppSidebarTheme>()!.sidebarWidth,
+  //           child: _sidebar(context),
+  //         ),
+  //         Expanded(child: body),
+  //       ],
+  //     );
+  //   }
+  // }
 
   Widget _changeLanguageButton(BuildContext context) {
+    final themeData = Theme.of(context);
+
     return PopupMenuButton(
-      splashRadius: 0.0,
+      splashRadius: 0,
       tooltip: '',
       position: PopupMenuPosition.under,
       itemBuilder: (context) {
@@ -185,18 +143,15 @@ class PortalMasterLayout extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding * 0.5),
-        constraints: const BoxConstraints(minWidth: 48.0),
+        constraints: const BoxConstraints(minWidth: 48),
         child: Row(
           children: [
-            Text(
-              'lng',
-              style: TextStyle(
-                fontSize: (Theme.of(context).textTheme.labelLarge!.fontSize! + 4.0),
-                fontWeight: FontWeight.bold,
-              ),
+            Icon(
+              Icons.language,
+              size: themeData.textTheme.labelLarge!.fontSize! + 4.0,
             ),
             Visibility(
-              visible: (MediaQuery.of(context).size.width > kScreenWidthMd),
+              visible: MediaQuery.of(context).size.width > kScreenWidthMd,
               child: Padding(
                 padding: const EdgeInsets.only(left: kDefaultPadding * 0.5),
                 child: Text(Lang.of(context).language),
@@ -207,7 +162,6 @@ class PortalMasterLayout extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class ResponsiveAppBarTitle extends StatelessWidget {
@@ -231,10 +185,10 @@ class ResponsiveAppBarTitle extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Visibility(
-              visible: (mediaQueryData.size.width > kScreenWidthSm),
+              visible: mediaQueryData.size.width > kScreenWidthSm,
               child: Container(
                 padding: const EdgeInsets.only(right: kDefaultPadding * 0.7),
-                height: 40.0,
+                height: 40,
                 child: Image.asset(
                   'assets/images/app_logo.png',
                   fit: BoxFit.contain,

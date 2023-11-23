@@ -8,7 +8,7 @@ final sidebarMenuConfigs = [
   SidebarMenuConfig(
     uri: RouteUri.dashboard,
     icon: Icons.dashboard_rounded,
-    title: (context) => Lang.of(context).dashboard,
+    title: (context) => Lang.of(context).searchService,
   ),
   // SidebarMenuConfig(
   //   uri: RouteUri.form,
