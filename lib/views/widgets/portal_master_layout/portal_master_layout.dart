@@ -65,31 +65,31 @@ class _PortalMasterLayoutState extends State<PortalMasterLayout> {
         title: ResponsiveAppBarTitle(
           onAppBarTitlePressed: () => GoRouter.of(context).go(RouteUri.home),
         ),
-        backgroundColor: const Color(0xFFE4003A),
+        backgroundColor: Colors.redAccent,
         actions: [
           _changeLanguageButton(context),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: VerticalDivider(
-              width: 1,
-              thickness: 1,
-              color: themeData.appBarTheme.foregroundColor!.withOpacity(0.5),
-              indent: 14,
-              endIndent: 14,
-            ),
-          ),
-          IconButton(
-              icon: const Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-              tooltip: 'Logout/ExitToApp',
-              onPressed: () {
-                _autState.logout();
-                GoRouter.of(context).go(RouteUri.logout);
-              },
-          ),
-          const SizedBox(width: kDefaultPadding * 0.5),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 4),
+          //   child: VerticalDivider(
+          //     width: 1,
+          //     thickness: 1,
+          //     color: themeData.appBarTheme.foregroundColor!.withOpacity(0.5),
+          //     indent: 14,
+          //     endIndent: 14,
+          //   ),
+          // ),
+          // IconButton(
+          //     icon: const Icon(
+          //       Icons.exit_to_app,
+          //       color: Colors.white,
+          //     ),
+          //     tooltip: 'Logout/ExitToApp',
+          //     onPressed: () {
+          //       _autState.logout();
+          //       GoRouter.of(context).go(RouteUri.logout);
+          //     },
+          // ),
+          // const SizedBox(width: kDefaultPadding * 0.5),
         ],
       ),
       bottomNavigationBar: BottomNavBar(selectedPageIndex: widget.selectedPageIndex),

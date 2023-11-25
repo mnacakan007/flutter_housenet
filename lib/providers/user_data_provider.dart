@@ -1,10 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/values.dart';
+import '../utils/storage_utils.dart';
 
 class UserDataProvider extends ChangeNotifier {
   var _userProfileImageUrl = '';
   var _username = '';
+  var _accessToken = '';
 
   String get userProfileImageUrl => _userProfileImageUrl;
 
@@ -59,7 +61,13 @@ class UserDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getAccessToken() async {
+    _accessToken = await StorageUtils.getAccessToken() ?? '';
+
+    notifyListeners();
+  }
+
   bool isUserLoggedIn() {
-    return _username.isNotEmpty;
+    return _accessToken.isNotEmpty;
   }
 }
