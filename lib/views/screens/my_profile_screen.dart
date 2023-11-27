@@ -72,7 +72,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 lang.myProfile,
                 style: themeData.textTheme.headlineMedium,
               ),
-              _toggleThemeButton(context),
+              // _toggleThemeButton(context),
             ],
           ),
           Padding(
@@ -137,7 +137,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               children: [
                 const CircleAvatar(
                   backgroundColor: Colors.white,
-                  backgroundImage: AssetImage('assets/images/app_logo.png'),
+                  backgroundImage: AssetImage('assets/images/avatar.jpg'),
                   radius: 60,
                 ),
                 Positioned(

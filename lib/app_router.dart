@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+
 import 'providers/user_data_provider.dart';
 import 'views/screens/buttons_screen.dart';
 import 'views/screens/colors_screen.dart';
@@ -13,6 +15,7 @@ import 'views/screens/login_screen.dart';
 import 'views/screens/logout_screen.dart';
 import 'views/screens/my_profile_screen.dart';
 import 'views/screens/register_screen.dart';
+import 'views/screens/settings/view/settings_screen.dart';
 import 'views/screens/text_screen.dart';
 
 class RouteUri {
@@ -32,6 +35,7 @@ class RouteUri {
   static const String crud = '/crud';
   static const String crudDetail = '/crud-detail';
   static const String iframe = '/iframe';
+  static const String settings = '/settings';
 }
 
 const List<String> unrestrictedRoutes = [
@@ -152,6 +156,15 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
           return NoTransitionPage<void>(
             key: state.pageKey,
             child: CrudDetailScreen(id: state.matchedLocation ?? ''),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteUri.settings,
+        pageBuilder: (context, state) {
+          return NoTransitionPage<void>(
+            key: state.pageKey,
+            child: const SettingsScreen(),
           );
         },
       ),
