@@ -55,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
           _loginState.startLoading();
 
           final res = await LoginRepository.login(_formData.username, _formData.password);
-
           if (res.accessToken?.isNotEmpty ?? false) {
             final token = '${res.accessToken}';
 

@@ -27,8 +27,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   Future<bool> _getDataAsync() async {
     await Future.delayed(const Duration(seconds: 1), () {
-      _formData..userProfileImageUrl = 'https://picsum.photos/id/1005/300/300'
-      ..username = 'Admin ABC'
+      _formData..username = 'Admin ABC'
       ..email = 'adminabc@email.com';
     });
 
@@ -73,7 +72,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 lang.myProfile,
                 style: themeData.textTheme.headlineMedium,
               ),
-              _toggleThemeButton(context),
+              // _toggleThemeButton(context),
             ],
           ),
           Padding(
@@ -136,9 +135,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             padding: const EdgeInsets.only(bottom: kDefaultPadding * 1.5),
             child: Stack(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundColor: Colors.white,
-                  backgroundImage: NetworkImage(_formData.userProfileImageUrl),
+                  backgroundImage: AssetImage('assets/images/avatar.jpg'),
                   radius: 60,
                 ),
                 Positioned(
