@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../app_router.dart';
 import '../../../../providers/app_preferences_provider.dart';
-import '../../../../store/auth/auth_state.dart';
 import '../../../widgets/base_container.dart';
 import '../../../widgets/portal_master_layout/portal_master_layout.dart';
 import '../widgets/settings_toggle_card.dart';
@@ -23,7 +22,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final provider = context.read<AppPreferencesProvider>();
     final currentThemeMode = provider.themeMode;
-    final _autState = AuthState();
 
     return PortalMasterLayout(
       selectedPageIndex: 2,
@@ -77,10 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: 'Log out',
               iconData: Icons.logout,
               iconColor: Colors.redAccent,
-              onTap: () {
-                _autState.logout();
-                GoRouter.of(context).go(RouteUri.logout);
-              },
+              onTap: () => GoRouter.of(context).go(RouteUri.logout),
             ),
           ),
         ],

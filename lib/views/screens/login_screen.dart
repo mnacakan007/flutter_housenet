@@ -11,11 +11,9 @@ import '../../constants/dimens.dart';
 import '../../generated/l10n.dart';
 import '../../http/repositories/login_repository.dart';
 import '../../providers/user_data_provider.dart';
-import '../../store/auth/auth_state.dart';
 import '../../store/login_state/login_state.dart';
 import '../../theme/theme_extensions/app_button_theme.dart';
 import '../../utils/app_focus_helper.dart';
-import '../../utils/storage_utils.dart';
 import '../widgets/public_master_layout/public_master_layout.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,7 +26,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _formData = FormData();
-  final _autState = AuthState();
   final _loginState = LoginState();
 
   var _isFormLoading = false;
@@ -46,20 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState!.save();
 
       Future.delayed(const Duration(seconds: 1), () async {
-        await userDataProvider.setUserDataAsync(
-          username: 'Housenet Admin',
-          userProfileImageUrl: 'https://cashier.housenet.am/img/avatar-s-3.7ed1da4a.jpg',
-        );
-
         try {
           _loginState.startLoading();
 
           final res = await LoginRepository.login(_formData.username, _formData.password);
+
           if (res.accessToken?.isNotEmpty ?? false) {
             final token = '${res.accessToken}';
 
-            _autState.accessToken = token;
-            await StorageUtils.setAccessToken(token);
+            await userDataProvider.setAccessTokenAsync(token);
+            await userDataProvider.setUserDataAsync(
+              username: 'Housenet Admin',
+              userProfileImageUrl: 'https://cashier.housenet.am/img/profile.jpg',
+            );
+
             onSuccess.call();
           }
         } catch (error) {

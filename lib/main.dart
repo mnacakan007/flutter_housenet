@@ -6,7 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Environment.init(
-    apiBaseUrl: 'https://jsonplaceholder.typicode.com',
+    apiBaseUrl: 'https://cashier-api.housenet.am/api/auth',
   );
 
   runApp(const RootApp());

@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/values.dart';
-import '../utils/storage_utils.dart';
 
 class UserDataProvider extends ChangeNotifier {
   var _userProfileImageUrl = '';
@@ -17,6 +16,7 @@ class UserDataProvider extends ChangeNotifier {
 
     _username = sharedPref.getString(StorageKeys.username) ?? '';
     _userProfileImageUrl = sharedPref.getString(StorageKeys.userProfileImageUrl) ?? '';
+    _accessToken = sharedPref.getString(StorageKeys.accessToken) ?? '';
 
     notifyListeners();
   }
@@ -54,17 +54,30 @@ class UserDataProvider extends ChangeNotifier {
 
     await sharedPref.remove(StorageKeys.username);
     await sharedPref.remove(StorageKeys.userProfileImageUrl);
+    await sharedPref.remove(StorageKeys.accessToken);
 
     _username = '';
     _userProfileImageUrl = '';
+    _accessToken = '';
 
     notifyListeners();
   }
 
-  Future<void> getAccessToken() async {
-    _accessToken = await StorageUtils.getAccessToken() ?? '';
+  Future<void> setAccessTokenAsync(String? accessToken) async {
+    final sharedPref = await SharedPreferences.getInstance();
+    var shouldNotify = false;
 
-    notifyListeners();
+    if (accessToken != null && accessToken != _accessToken) {
+      _accessToken = accessToken;
+
+      await sharedPref.setString(StorageKeys.accessToken, _accessToken);
+
+      shouldNotify = true;
+    }
+
+    if (shouldNotify) {
+      notifyListeners();
+    }
   }
 
   bool isUserLoggedIn() {
