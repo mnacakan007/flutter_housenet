@@ -7,7 +7,6 @@ import '../../../constants/dimens.dart';
 import '../../../generated/l10n.dart';
 import '../../../master_layout_config.dart';
 import '../../../providers/app_preferences_provider.dart';
-import '../../../store/auth/auth_state.dart';
 import '../bottom-nav-bar.dart';
 
 class LocaleMenuConfig {
@@ -51,8 +50,6 @@ class PortalMasterLayout extends StatefulWidget {
 }
 
 class _PortalMasterLayoutState extends State<PortalMasterLayout> {
-  final _autState = AuthState();
-
   @override
   Widget build(BuildContext context) {
     // final mediaQueryData = MediaQuery.of(context);
