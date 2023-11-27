@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Future.delayed(const Duration(seconds: 1), () async {
         await userDataProvider.setUserDataAsync(
           username: 'Housenet Admin',
-          userProfileImageUrl: 'https://cashier.housenet.am/img/avatar-s-3.7ed1da4a.jpg',
+          userProfileImageUrl: 'https://cashier.housenet.am/img/profile.jpg',
         );
 
         try {

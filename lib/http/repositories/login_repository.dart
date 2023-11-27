@@ -8,8 +8,8 @@ class LoginRepository {
   static Future<LoginModel> login(String login, String password) async {
     final res = await dio.post('/login?api_token=${ApiKey.apiToken}',
       data: {
-      'login': 'Admin',
-      'password': '!QAZ2wsx',
+      'login': login,
+      'password': password,
       },
     );
     return LoginModel.fromJson(res.data);

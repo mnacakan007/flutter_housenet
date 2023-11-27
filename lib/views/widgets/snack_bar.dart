@@ -21,14 +21,14 @@ void showFlashError(BuildContext context, String message) {
       ),
       backgroundColor: Colors.red,
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: 'Dismiss',
-        textColor: Colors.white,
-        backgroundColor: Colors.black,
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: 'Dismiss',
+      //   textColor: Colors.white,
+      //   backgroundColor: Colors.black,
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ),
   );
 }
